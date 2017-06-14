@@ -1,3 +1,5 @@
+package exam
+
 import scala.annotation.tailrec
 
 class Employee(

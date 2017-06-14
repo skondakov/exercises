@@ -32,7 +32,7 @@ object Exam2 {
     val data = (0 to 10000)
 
     import scala.io.Source
-    val fileContents = Source.fromFile("C:\\Users\\I307073\\Downloads\\movies.txt").getLines.toList
+    val fileContents = Source.fromFile("movies.txt").getLines.toList
 
     val movies = fileContents.map(x => {
       val data = x.split(";");
@@ -54,9 +54,9 @@ object Exam2 {
     val noAwards = movies.filter(_.awards == false).sortBy(_.popularity)
 
     // 3
-    val moviesByDecades = movies
+    val (decade, noComedies) = movies
       .filter(_.subject.toLowerCase() == "comedy")
       .groupBy(x => (x.year - 1900) / 10).toList
-      .maxBy(x => x._2.length )._1
+      .maxBy(x => x._2.length)
   }
 }

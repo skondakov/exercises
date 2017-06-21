@@ -28,25 +28,25 @@ object Functions {
     return balance(chars.tail, newOpen)
   }
 
-  def map(chars: List[Char], f: Char => Unit): Unit = {
-      f(chars.head)
-      if (!chars.tail.isEmpty) map(chars.tail, f)
-  }
-
-  def toUpperCase(chars: List[Char]) = {
-    def upperCase(char: Char) = ???
+  def map(chars: List[Char], f: Char => Any): List[Any] = for (char <- chars) yield f(char)
   
-    ???
+  def toUpperCase(chars: List[Char]) = {
+    def upperCase(char: Char) = if (char.toInt >= 97 && char.toInt <= 122) (char -32).toChar else char
+    for (char <- chars) yield upperCase(char)
   }
 
   // Проверява дали съществува елемент отговарящ на f
-  def exists(data: List[Int], f: Any) = ???
+  def exists(data: List[Int], f: Any => Boolean): Boolean = {
+      for (item <- data) if (f(item)) return true
+      return false
+  }
 
   // Връща масив съдържащ само елементите отговарящи на f
-  def filter(data: List[Int], f: Any) = ???
+  def filter(data: List[Int], f: Int => Boolean): List[Int] = for (item <- data if (f(item))) yield item
+
 
   // Проверява дали всички елементи отговарят на f
-  def forall(data: List[Int], f: Any) = ???
+  def forall(data: List[Int], f: Int => Boolean) = filter(data, f).length == data.length
 
   // Връща числото от триъгълника на Паскал отговарящо на съответния ред/колона
   def pascal(c: Int, r: Int): Int = ???

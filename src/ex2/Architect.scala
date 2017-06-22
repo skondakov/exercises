@@ -16,13 +16,22 @@ class Architect {
    *     val o: Option[Int] = Some(6)
    *     val n: Int = o.get
    */
-  def max(xs: List[Int]): Option[Int] = ???
+  def max(xs: List[Int]): Option[Int] = xs match {
+    case Nil => None
+    case List(x: Int) => Some(x)
+    case x :: y :: rest => max( (if (x > y) x else y) :: rest )
+  }
 
   // Determines the type of given triangle: "rectangular", "equilateral", "isosceles", "random"
-  def triangleType(t: Triangle): String = ???
+  def triangleType(t: Triangle): String = t match {
+    case Triangle(a, b, c, _) if a*a + b*b == c*c || c*c + b*b == a*a || c*c + a*a == b*b => "rectangular"
+    case Triangle(a, b, c, _) if a == b && b == c => "equilateral"
+    case Triangle(a, b, c, _) if a == b || b == c || a == c => "isosceles"  
+    case _ => "random"
+  }
 
   /*
-   * Calculates the area of the provided shape, by using these formulae:
+   * Calculates the area of the provided shape, by using these formulas:
    *  - Rectangular triangle: a * b / 2, where a and b are cathetus
    *  - Any triangle except rectangular: x * h / 2, where x is the largest side of the triangle and h is the opposite height
    *  - Rectangle: a * b, where a and b are both sides
@@ -31,7 +40,16 @@ class Architect {
    *  
    *  Hint: for triangles use the max function
    */
-  def area(s: Shape): Double = ???
+  def area(s: Shape): Double = s match {
+      case Triangle(a, b, c, _) if triangleType(s.asInstanceOf[Triangle]) == "rectangular" => {
+        val cathetus = List(a, b, c).filter(_ != max(List(a, b, c)).getOrElse(0).asInstanceOf[Int])
+        cathetus(0) * cathetus(1) / 2
+      }
+      case Triangle(a, b, c, h) if triangleType(s.asInstanceOf[Triangle]) != "rectangular" => max(List(a, b, c)).getOrElse(0).asInstanceOf[Int] * h / 2
+      case Rectangle(a, b) => a * b
+      case Trapezoid(a, b, h) => (a * b) * h / 2
+      case Cube() => -1
+  }
 
   /*
    *  Returns the number of rectangular triangles in given list of shapes
@@ -39,7 +57,11 @@ class Architect {
    *  Hint: use the triangleType function
    */
   def findRectangulars(shapes: List[Shape]): Int = {
-    def iter(shapes: List[Shape], n: Int): Int = ???
-    iter(???, ???)
+    def iter(shapes: List[Shape], n: Int): Int = shapes match {
+      case Nil => n
+      case s :: rest if (s.isInstanceOf[Triangle] && triangleType(s.asInstanceOf[Triangle]) == "rectangular") => iter(rest, n + 1)
+      case s :: rest => iter(rest, n)
+    }
+    iter(shapes, 0)
   }
 }

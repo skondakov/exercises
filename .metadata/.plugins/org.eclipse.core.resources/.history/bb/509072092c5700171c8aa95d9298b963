@@ -93,19 +93,19 @@ object StreamsExercise {
     *      find the desired number based on that stream.
     */
   
-  val capOfDigitsSizeTask1 = from(1).find(x => sumOfDigitsPowThree(maxFixedDigitsNumber(x)) < math.pow(10, x - 1))
+  val capOfDigitsSizeTask1 = from(n:Int).find(x => sumOfDigitsPowThree(x) < x / 10)
 
   /**
     * The stream of all numbers which may satisfy the TASK1 (defined above) conditions
     * @see Actually it is a stream computed from a range from 1 to the maximum number of
     *      the calculated capOfDigitsSizeTask1 digits.
     */
-  lazy val rangeStreamTask1 = from(1).filter(x => x < math.pow(10, capOfDigitsSizeTask1.get.asInstanceOf[Double] - 1))
+  lazy val rangeStreamTask1 = ???
 
   /**
     * The stream of all numbers satisfying Task1 condition.
     */
-  lazy val resultStreamTask1 = rangeStreamTask1.filter(x => sumOfDigitsPowThree(x) == x)
+  lazy val resultStreamTask1 = ???
 
 
   def main(args: Array[String]): Unit = {
